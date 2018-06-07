@@ -36,4 +36,39 @@ public class taskDaoImpl implements taskDao {
         return task;
 
     }
+
+    @Override
+    public int deleteTaskById(int id) {
+        Session session = sessionFactory.openSession();
+
+        task task = session.get(task.class, id);
+
+        if (task == null) {
+            return 0;
+
+        } else {
+
+            session.beginTransaction();
+
+            session.delete(task);
+
+            session.getTransaction().commit();
+
+            return 1;
+        }
+    }
+
+    @Override
+    public task updateTask(task b) {
+        Session session = sessionFactory.openSession();
+
+
+        session.beginTransaction();
+
+        session.update(b);
+
+        session.getTransaction().commit();
+
+        return b;
+    }
 }

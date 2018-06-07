@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class RestController {
     }
 
     // save task
-    @RequestMapping(value = "api/tasks", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+    @RequestMapping(value = "/api/tasks", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> insert(@RequestBody task task) {
         if (task == null) {
@@ -61,5 +62,36 @@ public class RestController {
         return new ResponseEntity<task>(b, HttpStatus.CREATED);
 
     }
+
+    @RequestMapping(value = "/api/tasks", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> DeleteTask(@RequestParam("id") String id) {
+        int result = taskService.deleteTaskById(Integer.parseInt(id));
+        if (result == 0) {
+            return new ResponseEntity<String>("task Not Found !!", HttpStatus.NOT_FOUND);
+
+        } else {
+            return new ResponseEntity<String>("Done Delete task ", HttpStatus.OK);
+
+        }
+
+    }
+
+
+    // update task 
+    @RequestMapping(value = "/api/tasks", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> UpdateTopic(@RequestBody task task) {
+
+        task business = taskService.updateTask( task);
+        if (business == null) {
+            return new ResponseEntity<String>("task Not Found !!", HttpStatus.NOT_FOUND);
+
+        } else {
+            return new ResponseEntity<task>(business, HttpStatus.OK);
+
+        }
+    }
+
 
 }

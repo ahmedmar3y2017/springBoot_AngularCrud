@@ -9,4 +9,8 @@ public interface taskDao {
 
     public task saveTask(task task);
 
-}
+    public int deleteTaskById(int id);
+
+    public task updateTask(task b);
+
+}	

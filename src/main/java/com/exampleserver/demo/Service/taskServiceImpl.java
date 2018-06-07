@@ -22,4 +22,14 @@ public class taskServiceImpl implements taskService {
     public task saveTask(task task) {
         return taskDao.saveTask(task);
     }
+
+    @Override
+    public int deleteTaskById(int id) {
+        return taskDao.deleteTaskById(id);
+    }
+
+    @Override
+    public task updateTask( task b) {
+        return taskDao.updateTask( b);
+    }
 }
